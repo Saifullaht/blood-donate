@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
 import Home from "./pages/home";
-import About from "./pages/about";
+import About from "./pages/About";
 import ContactUs from "./pages/Contact";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
