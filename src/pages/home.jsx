@@ -2,8 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
  
 import Categaries from "../components/Categareies";
-import Imgcards from "../components/imgcard";
-import Changeimg from "../components/changeimg";
+// import Imgcards from "../components/imgcard";
+// import Changeimg from "../components/changeimg";
 
 const Home = () => (
   <motion.div
@@ -75,7 +75,7 @@ const Home = () => (
     </div>
 
     {/* Testimonials Section */}
-   <Imgcards/>
+   {/* <Imgcards/> */}
   {/* Why Donate Section */}
   <div className="info-section">
       <h2 className="section-title">Why Donate Blood?</h2>
@@ -84,7 +84,7 @@ const Home = () => (
         difference.
       </p>
     </div>
-    <Changeimg/>
+    {/* <Changeimg/> */}
     <div>
        <Categaries/>
     </div>
