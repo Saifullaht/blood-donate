@@ -4,16 +4,19 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar"; // Import Sidebar
  
 
-import ContactUs from "./pages/contact";
 import Footer from "./components/Footer";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
-import Adminn from "./pages/Adminn";
+ 
+ 
+ 
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
-import BloodDonars from "./pages/BloodDonars";
 import Home from "./pages/home";
 import About from "./pages/about";
+import ContactUs from "./pages/Contact";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
+import BloodDonars from "./pages/BloodDonars";
+import Admin from "./pages/Admin";
 
 // Layout for main content pages (with Navbar)
 const MainLayout = ({ children }) => (
@@ -41,13 +44,13 @@ const App = () => {
         <Route path="/about" element={<MainLayout><About/></MainLayout>} />
         
         <Route path="/contact" element={<MainLayout><ContactUs /></MainLayout>} />
-        <Route path="/login" element={<MainLayout><Login /></MainLayout>} />
+        <Route path="/login" element={<MainLayout><Login/></MainLayout>} />
         <Route path="/signup" element={<MainLayout><Signup /></MainLayout>} />
         <Route path="/BloodDonars" element={<MainLayout><BloodDonars/></MainLayout>} />
 
         {/* Admin and Dashboard Routes (with Sidebar) */}
-        <Route path="/admin" element={<AdminLayout><Adminn /></AdminLayout>} />
-        <Route path="/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
+        <Route path="/admin" element={<AdminLayout><Admin /></AdminLayout>} />
+         
       </Routes>
     </Router>
   );

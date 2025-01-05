@@ -1,9 +1,9 @@
 import React from 'react';
-import Sidebar from '../components/Sidebar';
  
  
  
-const Adminn = () => {
+ 
+const Admin = () => {
   return (
   <>
     <h1 className="text-black">Dashboard jiiiii</h1>
@@ -11,4 +11,4 @@ const Adminn = () => {
   );
 };
 
-export default Adminn;
+export default Admin;
