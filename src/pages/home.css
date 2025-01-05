@@ -1,0 +1,259 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    overflow-x: hidden;
+    padding-left: 5px;
+    
+  }
+  .main{
+  font-size: 50px;
+  margin-top: -50px;
+  }
+  
+  h1, h2, h3, h4 {
+    color: #fff;
+  }
+
+  /* Carousel Section */
+.carousel-section {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.carousel-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.carousel-container {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.carousel-image-wrapper {
+  width: 100%;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #e52d27;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+.carousel-button:hover {
+  background-color: #b31217;
+}
+
+  
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(135deg, #b6443a, #781b3a);
+    color: #fff;
+    margin-top: 30px;
+    padding: 100px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .hero-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+  
+  .cta-button {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    background-color: #fff;
+    color: #ff2770;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #ff2770;
+    color: #fff;
+  }
+  
+  /* Stats Section */
+  .stats-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 50px 0;
+  }
+  
+  .stat {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 30%;
+  }
+  
+  .stat h3 {
+    font-size: 2.5rem;
+    color: #ff2770;
+    font-weight: 700;
+  }
+  
+  .stat p {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Info Section */
+  .info-section {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: rgb(169, 15, 15);
+    color: #fff;
+    margin: 40px 0;
+    border-radius: 10px;
+  }
+  
+  .info-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .info-section p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-top: 10px;
+  }
+  
+  /* Steps Section */
+  .steps-section {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f2f2f2;
+    margin: 40px 0;
+    border-radius: 10px;
+  }
+  
+  .steps-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .steps-section ol {
+    list-style-position: inside;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .steps-section ol li {
+    margin: 15px 0;
+    font-weight: 300;
+  }
+  
+  /* Testimonial Section */
+  .testimonial-section {
+    padding: 40px 20px;
+    background-color: #fff;
+    margin: 50px 0;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .testimonial-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  
+  .testimonial {
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 30px;
+  }
+  
+  .testimonial p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .testimonial h4 {
+    font-size: 1rem;
+    color: #ff2770;
+    font-weight: 600;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .stats-section {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .stat {
+      width: 80%;
+      margin-bottom: 20px;
+    }
+  
+    .hero-section h1 {
+      font-size: 2.5rem;
+    }
+  
+    .cta-button {
+      font-size: 1rem;
+      padding: 12px 25px;
+    }
+  
+    .steps-section ol {
+      font-size: 1rem;
+    }
+  
+    .testimonial p {
+      font-size: 1rem;
+    }
+  }
+  
