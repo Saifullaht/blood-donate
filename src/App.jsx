@@ -2,12 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar"; // Import Sidebar
- 
-
 import Footer from "./components/Footer";
- 
- 
- 
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
 import Home from "./pages/home";

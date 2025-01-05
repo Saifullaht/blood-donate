@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import "./Home.css";
+ 
 import Categaries from "../components/Categareies";
 import Imgcards from "../components/imgcard";
 import Changeimg from "../components/changeimg";
