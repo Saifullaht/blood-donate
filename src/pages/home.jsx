@@ -75,7 +75,7 @@ const Home = () => (
     </div>
 
     {/* Testimonials Section */}
-    <Imgcards/>
+   <Imgcards/>
   {/* Why Donate Section */}
   <div className="info-section">
       <h2 className="section-title">Why Donate Blood?</h2>
