@@ -5,7 +5,6 @@ const BloodDonars = () => {
     <div>
       
       <h1 className="text-black main">Blood-donars</h1>
-     
     </div>
   );
 };

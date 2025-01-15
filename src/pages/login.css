@@ -13,16 +13,48 @@ body{
      
 }
 
+.google-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    color: #5f6368;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    padding: 10px 52px;
+    
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .google-login-button:hover {
+    background-color: #f7f8fa;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .google-login-button img {
+    width: 20px;
+    height: 20px;
+  }
+  
 .box {
     position: relative;
     width: 380px;
-    height: 450px;
+    height: 550px;
     margin-left: 35%;
     background: #1c1c1c;
     border-radius: 8px;
     overflow: hidden;
     padding: 10px;
 }
+
+.custom-spinner .ant-spin-dot i {
+    background-color: white !important; /* Make the spinner dots white */
+  }
 
 .box::before{
     content: '';

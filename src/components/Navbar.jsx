@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./Navbar.css";
 import {
   Navbar,
@@ -11,7 +11,11 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
- 
+import { AuthContext } from "../Context/Authcontext";
+import Cookies from "js-cookie";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
+
 // AcmeLogo component
 export const AcmeLogo = () => {
   return (
@@ -28,25 +32,37 @@ export const AcmeLogo = () => {
 
 // Main App Component
 export default function App() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const { user, setUser } = useContext(AuthContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const menuItems = [
-    "Home",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
-  ];
+  const handleLogout = () => {
+    Cookies.remove("token"); // Remove token from cookies
+    setUser(null); // Reset user context
+    navigate("/login"); // Redirect to login page
+    message.success("You have successfully logged out.");
+  };
+
+  const handleAdminAccess = () => {
+    if (!user || user.role !== "admin") {
+      message.error("Only admins can access this page.");
+      navigate("/"); // Redirect to home page
+    }
+  };
+
+  const handleProtectedAccess = (url) => {
+    if (!user) {
+      message.warning("You need to log in to access this page.");
+      navigate("/login"); // Redirect to login page
+    } else {
+      navigate(url); // Navigate to the desired page
+    }
+  };
 
   return (
     <Navbar
@@ -62,145 +78,131 @@ export default function App() {
       <NavbarContent className="hidden sm:flex gap-8" justify="center">
         <NavbarBrand>
           <AcmeLogo />
-          <p className="font-bold text-red-700 hover:text-red-500 transition-all duration-300">
+          <p className="font-bold text-red-700 hover:text-red-500 cursor-pointer  transition-all duration-300">
             Blood Donate
           </p>
         </NavbarBrand>
 
+        {/* Accessible to all */}
         <NavbarItem>
           <Link
-            href="/"
-            className="hover:text-blue-500 font-semibold  transition-all duration-300"
+            onClick={() => handleProtectedAccess("/")}
+            className="hover:text-blue-500 font-semibold cursor-pointer   transition-all duration-300"
           >
             Home
           </Link>
         </NavbarItem>
-
         <NavbarItem>
           <Link
-           color="foreground"
-           href="About"
-           className="hover:text-blue-500 font-semibold  transition-all duration-300"
+            onClick={() => handleProtectedAccess("/about")}
+            className="hover:text-blue-500 font-semibold cursor-pointer transition-all duration-300"
           >
             About Us
           </Link>
         </NavbarItem>
-
         <NavbarItem>
           <Link
-           color="foreground"
-           href="Contact"
-          
-           className="hover:text-blue-500 font-semibold transition-all duration-300"
+            onClick={() => handleProtectedAccess("/contact")}
+            className="hover:text-blue-500  font-semibold cursor-pointer transition-all duration-300"
           >
             Contact Us
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link
-           color="foreground"
-           href="BloodDonars"
-          
-           className="hover:text-blue-500 font-semibold transition-all duration-300"
+            onClick={() => handleProtectedAccess("/BloodDonars")}
+            className="hover:text-blue-500 font-semibold cursor-pointer  transition-all duration-300"
           >
-            BloodDonars
+            Blood Donors
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link
+            onClick={() => handleProtectedAccess("/BloodDonorForm")}
+            className="hover:text-blue-500 font-semibold cursor-pointer  transition-all duration-300"
+          >
+            Blood Donar Form
           </Link>
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link
-            href="login"
-            className="bg-red-700 hover:bg-red-700 text-white transition-all duration-300 px-4 py-2 rounded"
-          >
-            Login
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            href="signup"
-            color="warning"
-            variant="flat"
-            className="bg-red-700 hover:bg-red-700 text-white transition-all duration-300 rounded"
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
-
-        {/* Avatar with Dropdown */}
-        <div className="relative">
-      <img
-        id="avatarButton"
-        src="/docs/images/people/profile-picture-5.jpg" // Add your profile image URL here
-        alt="User dropdown"
-        className="w-10 h-10 rounded-full cursor-pointer border-3 border-red-500 hover:border-red-700 transition-all duration-400"
-        onClick={toggleDropdown}
-      />
-      {isDropdownOpen && (
-        <div
-          id="userDropdown"
-          className="absolute right-0 z-10 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
-        >
-          <div className="px-4 py-3 text-sm font-serif  text-black">
-            <div className="font-serif ">Bonnie Green</div>
-            <div className="font-medium truncate font-serif ">name@flowbite.com</div>
-          </div>
-          <ul
-            className="py-2 text-sm text-black"
-            aria-labelledby="avatarButton"
-          >
-            <li className="boldd">
+        {!user ? (
+          <>
+            <NavbarItem className="hidden lg:flex">
               <Link
-                href="/admin"
-                className="block text-black font-serif  px-4 py-2 hover:bg-gray-300"
+                href="/login"
+                className="bg-red-700 hover:bg-red-700 text-white transition-all duration-300 px-4 py-2 rounded"
               >
-                Admin
+                Login
               </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings"
-                className="block px-4 py-2 font-serif  text-black hover:bg-gray-300"
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                as={Link}
+                href="/signup"
+                color="warning"
+                variant="flat"
+                className="bg-red-700 hover:bg-red-700 text-white transition-all duration-300 rounded"
               >
-                Settings
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/earnings"
-                className="block px-4 py-2 font-serif  text-black hover:bg-gray-300"
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        ) : (
+          <div className="flex items-center gap-4">
+            <img
+              id="avatarButton"
+              src="/default-avatar.jpg" // Add your profile image URL here
+              alt="User dropdown"
+              className="w-10 h-10 rounded-full cursor-pointer border-3 border-red-500 hover:border-red-700 transition-all duration-400"
+              onClick={toggleDropdown}
+            />
+            {isDropdownOpen && (
+              <div
+                id="userDropdown"
+                className="absolute right-0 z-10 mt-60 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
               >
-                Earnings
-              </Link>
-            </li>
-          </ul>
-          <div className="py-1">
-            <Link
-              to="/signout"
-              className="block px-4 py-2 text-sm font-serif  text-black hover:bg-gray-300"
+                <div className="px-4 py-3 text-sm font-serif text-black">
+                  <div className="font-medium truncate font-serif">
+                    {user?.email || "User Email"}
+                  </div>
+                </div>
+                <ul
+                  className="py-2 text-sm text-black"
+                  aria-labelledby="avatarButton"
+                >
+                  <li>
+                    <Link
+                      onClick={handleAdminAccess}
+                      className="block text-black font-serif cursor-pointer  px-4 py-2 hover:bg-gray-300"
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                  {/* <li>
+                    <Link
+                      href=""
+                      className="block px-4 py-2 font-serif cursor-pointer  text-black hover:bg-gray-300"
+                    >
+                      Settings
+                    </Link>
+                  </li> */}
+                </ul>
+              </div>
+            )}
+            <Button
+              onClick={handleLogout}
+              color="error"
+              variant="flat"
+              className="bg-red-700 hover:bg-red-800 cursor-pointer  text-white rounded transition-all duration-300 px-4 py-2"
             >
-              Sign out
-            </Link>
+              Logout
+            </Button>
           </div>
-        </div>
-      )}
-    </div>
+        )}
       </NavbarContent>
-
-      <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              className="w-full py-2 px-4 hover:bg-gray-200 transition-all duration-300 rounded"
-              href="#"
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu>
     </Navbar>
   );
 }
+
