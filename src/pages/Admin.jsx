@@ -1,14 +1,15 @@
-import React from 'react';
- 
- 
- 
- 
-const Admin = () => {
-  return (
-  <>
-    <h1 className="text-black">Dashboard jiiiii</h1>
-  </>
-  );
-};
-
-export default Admin;
+ import React from "react";
+import Sidebar from "../components/Sidebar";
+const admmission = () => {
+    return (
+        
+        
+      <div>
+        <h1>admin panel</h1>
+      </div>
+      
+    );
+  };
+  
+  export default admmission;
+  

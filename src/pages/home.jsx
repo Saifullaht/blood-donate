@@ -1,16 +1,22 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Categaries from "../components/Categareies";
+import BloodHome from "./bloodhome";
 
 const Home = () => {
   return (
+
+    
     <motion.div
-      className="home-page"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      style={{ padding: "20px", backgroundColor: "#f0f4f8" }}
+
+      // className="home-page"
+      // initial={{ opacity: 0, y: 20 }}
+      // animate={{ opacity: 1, y: 0 }}
+      // transition={{ duration: 0.8 }}
+      style={{ padding: "5px", backgroundColor: "#f0f4f8" }}
     >
+       
+       <BloodHome/>
       {/* Hero Section */}
       <div className="hero-section" style={heroSectionStyle}>
         <motion.h1

@@ -6,6 +6,7 @@ import { AppRoutes } from "../Constant/constant";
 import { Spin, message } from "antd";
 
 const Signup = () => {
+  const [isLoginActive, setLoginActive] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -21,18 +22,13 @@ const Signup = () => {
 
     axios
       .post(AppRoutes.register, obj)
-      .then((res) => {
+      .then(() => {
         setLoading(false);
-
-        // Show success message
         message.success("Signup successful! Please log in.");
-        // Redirect to Home page after successful signup
-        navigate("/home"); // Directly redirect to Home page
+        navigate("/login");
       })
       .catch((err) => {
         setLoading(false);
-
-        // Show error message
         const errorMessage =
           err.response?.data?.message || "Signup failed! Please try again.";
         message.error(errorMessage);
@@ -40,58 +36,85 @@ const Signup = () => {
   };
 
   return (
-    <div className="box">
-      <span className="borderLine" />
-      <form onSubmit={handleSignup}>
-        <h2>Sign Up</h2>
-        <div className="inputBox">
-          <input type="text" name="fullname" required />
-          <span className="white">Full Name</span>
-          <i />
+    <div className="wrapper">
+      <div className="title-text">
+        <div className={`title ${isLoginActive ? "login" : "signup"}`}>
+          {isLoginActive ? "Login Form" : "Signup Form"}
         </div>
-        <div className="inputBox">
-          <input type="text" name="email" required />
-          <span className="white">Email</span>
-          <i />
-        </div>
-        <div className="inputBox">
-          <input type="password" name="password" required />
-          <span>Password</span>
-          <i />
-        </div>
-        <div className="links">
-          <a href="/login" color="blue">
+      </div>
+      <div className="form-container">
+        <div className="slide-controls">
+          <input
+            type="radio"
+            name="slide"
+            id="login"
+            checked={isLoginActive}
+            onChange={() => {
+              setLoginActive(true);
+              navigate("/login");
+            }}
+          />
+          <input
+            type="radio"
+            name="slide"
+            id="signup"
+            checked={!isLoginActive}
+            onChange={() => setLoginActive(false)}
+          />
+          <label htmlFor="login" className="slide login">
             Login
-          </a>
+          </label>
+          <label htmlFor="signup" className="slide signup">
+            Signup
+          </label>
+          <div className={`slider-tab ${isLoginActive ? "login" : "signup"}`}></div>
         </div>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="google-btn"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "8px",
-          }}
-        >
-          {isLoading ? (
-            <>
-              <Spin
-                size="small"
-                className="custom-spinner"
+        <div className="form-inner">
+          <form onSubmit={handleSignup} className="signup">
+            <div className="field">
+              <input type="text" name="fullname" placeholder="Full Name" required />
+            </div>
+            <div className="field">
+              <input type="text" name="email" placeholder="Email Address" required />
+            </div>
+            <div className="field">
+              <input type="password" name="password" placeholder="Password" required />
+            </div>
+            <div className="field btn">
+              <div className="btn-layer"></div>
+              <button
+                type="submit"
+                disabled={isLoading}
                 style={{
-                  color: "white", // Ensure spinner color is white
+                  background: "none",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: "20px",
+                  fontWeight: "500",
+                  cursor: "pointer",
                 }}
-              />
-              <span style={{ color: "white" }}>Signing up...</span>
-            </>
-          ) : (
-            "Sign Up"
-          )}
-        </button>
-        
-      </form>
+              >
+                {isLoading ? (
+                  <>
+                    <Spin size="small" className="custom-spinner" /> Signing up...
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
+              </button>
+            </div>
+            <div className="login-link">
+              Already a member?{" "}
+              <a
+                onClick={() => navigate("/login")}
+                style={{ color: "#3498db", cursor: "pointer", fontWeight: "bold" }}
+              >
+                Login now
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

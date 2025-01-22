@@ -1,63 +1,82 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { message, Spin } from "antd";
+import { message, Spin, DatePicker, Modal } from "antd";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import moment from "moment";
 import { AppRoutes } from "../Constant/constant";
- import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 const BloodDonorForm = () => {
   const [loading, setLoading] = useState(false);
+  const [donar, setDonar] = useState({
+    fullname: "",
+    email: "",
+    phoneNumber: "",
+    gender: "",
+    age: "",
+    weight: "",
+    city: "",
+    country: "",
+    dob: null, // Date of Birth
+    bloodType: "",
+    antibodies: "",
+    lastDonationDate: null, // Last Donation Date
+    healthIssues: "",
+  });
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleChange = (key, value) => {
+    setDonar((prev) => ({ ...prev, [key]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Capture form data
-    const fullname = e.target.fullname.value;
-    const email = e.target.email.value;
-    const phoneNumber = e.target.phoneNumber.value;
-    const gender = e.target.gender.value;
-    const age = e.target.age.value;
-    const weight = e.target.weight.value;
-    const city = e.target.city.value;
-    const country = e.target.country.value;
-    const dob = e.target.dob.value;
-    const bloodType = e.target.bloodType.value;
-    const antibodies = e.target.antibodies.value;
-    const lastDonationDate = e.target.lastDonationDate.value;
-    const healthIssues = e.target.healthIssues.value;
+    try {
+      const token = Cookies.get("token");
+      const payload = {
+        ...donar,
+        dob: donar.dob ? donar.dob.format("YYYY-MM-DD") : null,
+        lastDonationDate: donar.lastDonationDate
+          ? donar.lastDonationDate.format("YYYY-MM-DD")
+          : null,
+      };
 
-    // Prepare the data object
-    const formData = {
-      fullname,
-      email,
-      phoneNumber,
-      gender,
-      age,
-      weight,
-      city,
-      country,
-      dob,
-      bloodType,
-      antibodies,
-      lastDonationDate,
-      healthIssues,
-    };
+      await axios.post(AppRoutes.donarForm, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    await axios.post(AppRoutes.DonarForm, formData , {
-      headers:{
-        Authorization: "Bearer" + Cookies.get("token")
-      }
-     })
-     .then((res) => {
-       message.success("Form submitted successfully!");
-       setLoading(false);
-     })
-    .catch((err) => {
-      console.log(err);
-      
-    })
+      setIsModalVisible(true); // Show modal on successful submission
+      setDonar({
+        fullname: "",
+        email: "",
+        phoneNumber: "",
+        gender: "",
+        age: "",
+        weight: "",
+        city: "",
+        country: "",
+        dob: null,
+        bloodType: "",
+        antibodies: "",
+        lastDonationDate: null,
+        healthIssues: "",
+      });
+    } catch (error) {
+      message.error("Failed to submit donor data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
+    window.location.href = "/"; // Redirect to homepage
   };
 
   return (
@@ -75,7 +94,8 @@ const BloodDonorForm = () => {
           <label className="block text-gray-700 mb-2">Full Name</label>
           <input
             type="text"
-            name="fullname"
+            value={donar.fullname}
+            onChange={(e) => handleChange("fullname", e.target.value)}
             placeholder="Enter your full name"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
@@ -87,7 +107,8 @@ const BloodDonorForm = () => {
           <label className="block text-gray-700 mb-2">Email</label>
           <input
             type="email"
-            name="email"
+            value={donar.email}
+            onChange={(e) => handleChange("email", e.target.value)}
             placeholder="Enter your email"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
@@ -99,10 +120,8 @@ const BloodDonorForm = () => {
           <label className="block text-gray-700 mb-2">Phone Number</label>
           <PhoneInput
             country={"pk"}
-            inputProps={{
-              name: "phoneNumber",
-              required: true,
-            }}
+            value={donar.phoneNumber}
+            onChange={(value) => handleChange("phoneNumber", value)}
             inputClass="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             containerClass="w-full"
           />
@@ -112,7 +131,8 @@ const BloodDonorForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Gender</label>
           <select
-            name="gender"
+            value={donar.gender}
+            onChange={(e) => handleChange("gender", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
           >
@@ -130,7 +150,8 @@ const BloodDonorForm = () => {
           <label className="block text-gray-700 mb-2">Age</label>
           <input
             type="number"
-            name="age"
+            value={donar.age}
+            onChange={(e) => handleChange("age", e.target.value)}
             placeholder="Enter your age"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
@@ -144,7 +165,8 @@ const BloodDonorForm = () => {
           <label className="block text-gray-700 mb-2">Weight (kg)</label>
           <input
             type="number"
-            name="weight"
+            value={donar.weight}
+            onChange={(e) => handleChange("weight", e.target.value)}
             placeholder="Enter your weight"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
@@ -157,7 +179,8 @@ const BloodDonorForm = () => {
           <label className="block text-gray-700 mb-2">City</label>
           <input
             type="text"
-            name="city"
+            value={donar.city}
+            onChange={(e) => handleChange("city", e.target.value)}
             placeholder="Enter your city"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
@@ -169,19 +192,9 @@ const BloodDonorForm = () => {
           <label className="block text-gray-700 mb-2">Country</label>
           <input
             type="text"
-            name="country"
+            value={donar.country}
+            onChange={(e) => handleChange("country", e.target.value)}
             placeholder="Enter your country"
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
-            required
-          />
-        </div>
-
-        {/* Date of Birth */}
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Date of Birth</label>
-          <input
-            type="date"
-            name="dob"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
           />
@@ -191,30 +204,32 @@ const BloodDonorForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Blood Type</label>
           <select
-            name="bloodType"
+            value={donar.bloodType}
+            onChange={(e) => handleChange("bloodType", e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
             required
           >
             <option value="" disabled>
               Select your blood type
             </option>
-            {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
           </select>
         </div>
 
-        {/* Antibodies */}
+        {/* Date of Birth */}
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">
-            Antibodies (comma-separated)
-          </label>
-          <input
-            type="text"
-            name="antibodies"
-            placeholder="Enter antibodies"
+          <label className="block text-gray-700 mb-2">Date of Birth</label>
+          <DatePicker
+            value={donar.dob}
+            onChange={(date) => handleChange("dob", date)}
+            format="YYYY-MM-DD"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
           />
         </div>
@@ -222,9 +237,10 @@ const BloodDonorForm = () => {
         {/* Last Donation Date */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Last Donation Date</label>
-          <input
-            type="date"
-            name="lastDonationDate"
+          <DatePicker
+            value={donar.lastDonationDate}
+            onChange={(date) => handleChange("lastDonationDate", date)}
+            format="YYYY-MM-DD"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
           />
         </div>
@@ -233,13 +249,13 @@ const BloodDonorForm = () => {
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Health Issues</label>
           <textarea
-            name="healthIssues"
+            value={donar.healthIssues}
+            onChange={(e) => handleChange("healthIssues", e.target.value)}
             placeholder="Enter any health issues"
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
           ></textarea>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300 flex items-center justify-center"
@@ -255,6 +271,31 @@ const BloodDonorForm = () => {
           )}
         </button>
       </form>
+
+      {/* Modal for confirmation */}
+      <Modal
+        open={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalOk}
+        centered
+        footer={[
+          <button
+            key="ok"
+            onClick={handleModalOk}
+            className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition"
+          >
+            OK
+          </button>,
+        ]}
+        styles={{
+          body: {
+            // backgroundColor: "#ffcccc",
+            textAlign: "center",
+          },
+        }}
+      >
+        <p>Your request has been sent to the admin. You will be notified once your request is approved.</p>
+      </Modal>
     </div>
   );
 };

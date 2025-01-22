@@ -1,0 +1,107 @@
+/* Form container styling */
+.donor-form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fefefe;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Title and description styling */
+  .form-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff4d4f;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .form-description {
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Input styling */
+  .animated-input,
+  .animated-select,
+  .input-large,
+  .ant-picker,
+  .ant-input-number {
+    height: 50px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    padding: 0 10px;
+    transition: all 0.3s;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .animated-input:focus,
+  .animated-select:focus,
+  .ant-picker-focused,
+  .ant-input-number-focused {
+    border-color: #ff4d4f;
+    box-shadow: 0 0 5px rgba(255, 77, 79, 0.5);
+    outline: none;
+  }
+  
+  /* Button styling */
+  .submit-button {
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ff4d4f;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .submit-button:hover {
+    background-color: #e43e3e;
+    transform: translateY(-2px);
+  }
+  
+  .submit-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Spinner alignment */
+  .ant-spin {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Form item spacing */
+  .ant-form-item {
+    margin-bottom: 20px;
+  }
+  
+  /* Add subtle animations */
+  .animated-input,
+  .animated-select,
+  .ant-picker,
+  .ant-input-number {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
