@@ -10,7 +10,7 @@ import ContactUs from "./pages/Contact";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import BloodDonars from "./pages/BloodDonars";
-  import admiin from "./pages/admin";
+ 
 import { AuthContext } from "./Context/Authcontext";
 import Cookies from "js-cookie";
 import Dashboard from "./pages/Dashboard";
