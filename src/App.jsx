@@ -58,7 +58,7 @@ const App = () => {
     }
   }, [setUser]);
 
-  // Hide Navbar on specific routes
+  
   const hideNavbar = location.pathname === "/login" || location.pathname === "/signup";
 
   return (
