@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { AppRoutes } from "../Constant/constant";
@@ -12,6 +12,17 @@ const Login = () => {
   const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    // Check if user is already logged in (by checking localStorage for token)
+    const token = localStorage.getItem("token");
+    const userInfo = localStorage.getItem("user");
+
+    if (token && userInfo) {
+      setUser(JSON.parse(userInfo)); // Restore user session from localStorage
+      navigate("/home"); // Redirect to home if already logged in
+    }
+  }, [setUser, navigate]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -27,8 +38,14 @@ const Login = () => {
       .then((res) => {
         setLoading(false);
 
-        Cookies.set("token", res?.data?.data?.token);
-        setUser(res?.data?.data?.user);
+        const { token, user } = res?.data?.data;
+
+        // Store token and user in localStorage for persistent login across refresh
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // Set user in context
+        setUser(user);
 
         message.success("Login successful! Welcome back.");
         navigate("/home"); // Redirect after login
@@ -80,7 +97,7 @@ const Login = () => {
       <div className="form-container">
         <div className="slide-controls">
           <label
-            className={`slide login  ${isLoginActive ? "active" : ""}`}
+            className={`slide login ${isLoginActive ? "active" : ""}`}
             onClick={() => {
               setLoginActive(true);
               navigate("/login");
@@ -89,7 +106,7 @@ const Login = () => {
             Login
           </label>
           <label
-            className={`slide signup  ${!isLoginActive ? "active" : " "}`}
+            className={`slide signup ${!isLoginActive ? "active" : " "}`}
             onClick={() => {
               setLoginActive(false);
               navigate("/signup");

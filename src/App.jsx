@@ -48,11 +48,10 @@ const App = () => {
   // Check for token in localStorage and set user on initial load
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      // If token exists, set the user
-      setUser({ token });
+    const userInfo = localStorage.getItem("user");
+    if (token && userInfo) {
+      setUser(JSON.parse(userInfo));
     } else {
-      // If no token, clear the user state
       setUser(null);
     }
   }, [setUser]);

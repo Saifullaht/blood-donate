@@ -33,10 +33,10 @@ export default function App() {
   }, [setUser]);
 
   const handleLogout = () => {
-    Cookies.remove("token"); // Remove token from cookies
-    setUser(null); // Set user state to null
-    navigate("/login"); // Redirect to login page
-    message.success("You have successfully logged out.");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
   };
 
   const handleProtectedAccess = (url) => {
