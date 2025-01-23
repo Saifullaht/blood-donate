@@ -10,9 +10,7 @@ import ContactUs from "./pages/Contact";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import BloodDonars from "./pages/BloodDonars";
- 
 import { AuthContext } from "./Context/Authcontext";
-import Cookies from "js-cookie";
 import Dashboard from "./pages/Dashboard";
 
 // Layout for main content pages (with Navbar)
@@ -29,7 +27,8 @@ const AdminLayout = ({ children }) => (
     <div style={{ marginLeft: "16rem", flex: 1 }}>{children}</div>
   </div>
 );
- 
+
+// Private route wrapper for authenticated users
 const PrivateRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
   return user ? children : <Navigate to="/login" />;
@@ -46,19 +45,18 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation(); // Get the current path
 
-  // Check for token in cookies and set user on initial load
+  // Check for token in localStorage and set user on initial load
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = localStorage.getItem("token");
     if (token) {
-      // User ko set karna
-      setUser({ token }); 
+      // If token exists, set the user
+      setUser({ token });
     } else {
-      // Agar token nahi mila, toh user ko logout karo
+      // If no token, clear the user state
       setUser(null);
     }
   }, [setUser]);
 
-  
   const hideNavbar = location.pathname === "/login" || location.pathname === "/signup";
 
   return (
@@ -101,17 +99,11 @@ const App = () => {
         <Route
           path="/dashboard"
           element={
- 
-
-               <AdminLayout>
-
-                 <Dashboard/>
-               </AdminLayout>
-
+            <AdminLayout>
+              <Dashboard />
+            </AdminLayout>
           }
         />
-         
-          
         <Route
           path="/BloodDonorForm"
           element={
@@ -132,10 +124,6 @@ const App = () => {
             </PrivateRoute>
           }
         />
-        
-
-        
-        
 
         {/* Public Routes for Login and Signup */}
         <Route

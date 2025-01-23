@@ -34,6 +34,7 @@ export default function App() {
 
   const handleLogout = () => {
     Cookies.remove("token"); // Remove token from cookies
+    localStorage.removeItem("token");
     setUser(null); // Set user state to null
     navigate("/login"); // Redirect to login page
     message.success("You have successfully logged out.");
