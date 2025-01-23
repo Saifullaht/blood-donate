@@ -3,7 +3,7 @@
 const devUrl = "http://localhost:3008/";
 const  DeployURl = "https://blood-backend-v7e9.vercel.app/";
 
-export const BaseURl = DeployURl
+export const BaseURl = devUrl
 
 
 export const AppRoutes ={
