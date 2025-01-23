@@ -74,7 +74,7 @@ export default function App() {
 
         <NavbarItem>
           <Link
-            onClick={() => handleProtectedAccess("/")}
+            onClick={() => handleProtectedAccess("/home")}
             className="hover:text-red-700 text-red-800 font-semibold cursor-pointer transition-all duration-300"
           >
             Home
